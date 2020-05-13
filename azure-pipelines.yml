@@ -119,9 +119,6 @@ stages:
     variables:
     - group: 'Release'
     steps:
-    - pwsh: |
-        echo "##vso[task.prependpath]$env:CHROMEWEBDRIVER"
-      displayName: Adds ChromeWebDriver for Selenium to PATH  
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
