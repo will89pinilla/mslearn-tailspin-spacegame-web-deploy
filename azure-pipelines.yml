@@ -118,7 +118,10 @@ stages:
       vmImage: 'windows-2019'
     variables:
     - group: 'Release'
-    steps: 
+    steps:
+    - pwsh: |
+        echo "##vso[task.prependpath]$env:CHROMEWEBDRIVER"
+      displayName: Adds ChromeWebDriver for Selenium to PATH  
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
@@ -135,8 +138,7 @@ stages:
         command: 'test'
         arguments: '--no-build --configuration $(buildConfiguration)'
         publishTestResults: true
-        projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'
-        
+        projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'        
 
 - stage: 'Staging'
   displayName: 'Deploy to the staging environment'
