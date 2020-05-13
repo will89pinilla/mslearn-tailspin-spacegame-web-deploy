@@ -119,6 +119,16 @@ stages:
     variables:
     - group: 'Release'
     steps:
+    - pwsh: |
+        echo "##vso[task.prependpath]$env:CHROMEWEBDRIVER"
+      displayName: Adds ChromeWebDriver for Selenium to PATH 
+
+    - powershell: |
+        Write-Host "Robot Framework tests"
+        robot -x 'outputxunit.xml' '$(Build.SourcesDirectory)\tests\.'
+      failOnStderr: true
+      displayName: 'Run Robot Framework Tests'
+      continueOnError: false 
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
