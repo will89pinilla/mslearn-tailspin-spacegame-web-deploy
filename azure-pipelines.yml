@@ -119,10 +119,12 @@ stages:
     variables:
     - group: 'Release'
     steps:
+    - powershell: |
+        (Get-Item "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe").VersionInfo 
+      displayName: 'We want to know the Chrome version installed on this darned machine'
     - pwsh: |
-        echo "##vso[task.prependpath]$env"
-      displayName: Adds ChromeWebDriver for Selenium to PATH 
-
+        chromeDriver -v
+      displayName: Echo Chrome WebDriver version
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
